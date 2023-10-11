@@ -34,13 +34,13 @@ namespace TicTacToe
         {
             if (player1turn)
             {
-                player1Score++;
-                playerscore1.Text = "" + player1Score;
+                player2Score++;
+                playerscore2.Text = "" + player2Score;
             }
             else
             {
-                player2Score++;
-                playerscore2.Text = "Player 2 Score: " + player2Score;
+                player1Score++;
+                playerscore1.Text = "" + player1Score;
             }
         }
         private void button_Click(object sender, EventArgs e)
@@ -95,6 +95,7 @@ namespace TicTacToe
             if (isWinner)
             {
                 disableButtons();
+                updatePlayerScores();
                 string winner = "";
                 if (player1turn)
                     winner = "O";
@@ -116,6 +117,8 @@ namespace TicTacToe
                     {
                         c.Enabled = false;
                         playAgain.Enabled = true;
+                        playerscore1.Enabled = true;
+                        playerscore2.Enabled = true;
                     }
                 }
             }
@@ -128,6 +131,7 @@ namespace TicTacToe
         private void playAgain_Click(object sender, EventArgs e)
         {
             resetGame();
+            playAgain.Text = "Play Again";
         }
 
         private void resetGame()
