@@ -27,7 +27,7 @@ namespace TicTacToe
 
         private void playerscore1_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void updatePlayerScores()
@@ -101,7 +101,14 @@ namespace TicTacToe
                     winner = "O";
                 else
                     winner = "X";
-                MessageBox.Show("Spelare " + winner + " vann!");
+                MessageBox.Show("Player " + winner + " won!");
+            }
+            else
+            {
+                if (turnCount == 9)
+                {
+                    MessageBox.Show("Typical, It's a draw!");
+                }
             }
         }
         private void disableButtons()//disable buttons after the game is over
@@ -146,7 +153,7 @@ namespace TicTacToe
                     b.Text = ""; // Clear the text
                 }
             }
-
+            turnCount = 0;
         }
 
     }
