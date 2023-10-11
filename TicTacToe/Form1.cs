@@ -5,8 +5,10 @@ namespace TicTacToe
 {
     public partial class TicTacToe : Form
     {
-        bool turn = true;// true = x false = o
+        bool player1turn = true;// true = x false = o
         int turnCount = 0;
+        int player1Score = 0;
+        int player2Score = 0;
 
         public TicTacToe()
         {
@@ -15,7 +17,7 @@ namespace TicTacToe
 
         private void displayTurn_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void playerscore2_Click(object sender, EventArgs e)
@@ -25,18 +27,36 @@ namespace TicTacToe
 
         private void playerscore1_Click(object sender, EventArgs e)
         {
+            
+        }
 
+        private void updatePlayerScores()
+        {
+            if (player1turn)
+            {
+                player1Score++;
+                playerscore1.Text = "" + player1Score;
+            }
+            else
+            {
+                player2Score++;
+                playerscore2.Text = "Player 2 Score: " + player2Score;
+            }
         }
         private void button_Click(object sender, EventArgs e)
         {  //game starts with x and then switches to o
             Button b = (Button)sender;
-            if (turn)
+            if (player1turn)
                 b.Text = "X";
             else
                 b.Text = "O";
 
-            turn = !turn;
+            player1turn = !player1turn;
             b.Enabled = false;
+
+            // Update the displayTurn label
+            displayTurn.Text = (player1turn ? "X" : "O");
+            turnCount++;
 
             checkForWinner();
         }
@@ -45,13 +65,13 @@ namespace TicTacToe
         {
             //horizontal checks for winner
             bool isWinner = false;
-            if ((a1.Text == a2.Text) && (a2.Text == a3.Text)&&(!a1.Enabled))
+            if ((a1.Text == a2.Text) && (a2.Text == a3.Text) && (!a1.Enabled))
                 isWinner = true;
 
-           else if ((b1.Text == b2.Text) && (b2.Text == b3.Text) && (!b1.Enabled))
+            else if ((b1.Text == b2.Text) && (b2.Text == b3.Text) && (!b1.Enabled))
                 isWinner = true;
 
-           else if ((c1.Text == c2.Text) && (c2.Text == c3.Text) && (!c1.Enabled))
+            else if ((c1.Text == c2.Text) && (c2.Text == c3.Text) && (!c1.Enabled))
                 isWinner = true;
 
             // vertical checks for winner
@@ -63,6 +83,7 @@ namespace TicTacToe
 
             else if ((a3.Text == b3.Text) && (b3.Text == c3.Text) && (!a3.Enabled))
                 isWinner = true;
+
             // diagonal checks for winner
             if ((a1.Text == b2.Text) && (b2.Text == c3.Text) && (!a1.Enabled))
                 isWinner = true;
@@ -71,38 +92,59 @@ namespace TicTacToe
                 isWinner = true;
 
             //if there is a winner show message box
-            if (isWinner) 
+            if (isWinner)
             {
                 disableButtons();
                 string winner = "";
-                if (turn)
+                if (player1turn)
                     winner = "O";
                 else
                     winner = "X";
-                MessageBox.Show(winner + " vann!");
+                MessageBox.Show("Spelare " + winner + " vann!");
             }
         }
         private void disableButtons()//disable buttons after the game is over
         {
             try
-            { 
+            {
                 foreach (Control c in Controls)
                 {
-                   
+
                     Button b = c as Button;
 
-                    
-                    if (b != null)
+                    if (c != null)
                     {
-                        
-                        b.Enabled = false;
+                        c.Enabled = false;
+                        playAgain.Enabled = true;
                     }
                 }
             }
-            catch 
+            catch
             {
-    
+
             }
         }
-    }  
+
+        private void playAgain_Click(object sender, EventArgs e)
+        {
+            resetGame();
+        }
+
+        private void resetGame()
+        {
+
+            foreach (Control c in Controls)
+            {
+                Button b = c as Button;
+                if (b != null)
+                {
+                    b.Enabled = true;
+                    b.Text = ""; // Clear the text
+                }
+            }
+
+        }
+
+    }
+
 }
